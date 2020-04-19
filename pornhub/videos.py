@@ -1,10 +1,10 @@
 # -*- coding: UTF-8 -*-
-
 from .core import *
 import re
 
+
 class Videos(object):
-    
+
     def __init__(self, ProxyDictionary, keywords=[], *args):
         self.keywords = keywords
         self.ProxyDictionary = ProxyDictionary
@@ -15,7 +15,7 @@ class Videos(object):
         # pornhub.com/video/search?search=arg1+arg2&p=professional
         # pornhub.com/video/search?search=arg1+arg2&p=professional&page=3
 
-        payload = {"search" : "", "page" : page_num}
+        payload = {"search": "", "page": page_num}
 
         for item in self.keywords:
             if (item == "professional") or (item == "pro"):
@@ -34,7 +34,8 @@ class Videos(object):
         return BeautifulSoup(html, "lxml")
 
     def _scrapLiVideos(self, soup_data):
-        return soup_data.find_all("li", { "class" : re.compile(".*videoblock videoBox.*") } )
+        payload = soup_data.find_all("li", { "class" : re.compile(".*videoblock videoBox.*") } )
+        return payload[4:]
 
     def _scrapVideoInfo(self, div_el):
         data = {
@@ -111,3 +112,4 @@ class Videos(object):
                         if found >= quantity: return
 
             page += 1
+
